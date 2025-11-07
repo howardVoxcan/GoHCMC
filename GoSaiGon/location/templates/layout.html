@@ -1,0 +1,135 @@
+{% load static %}
+
+<!DOCTYPE html>
+
+<html lang="en-US" lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/layout.css' %}?v={{ timestamp }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <title> {% block title %} Django's Tourist {% endblock %}</title>
+    <style>
+        .card a {
+            text-decoration: none;
+            color: inherit;
+        }
+    </style>
+    {% block css %}{% endblock %}
+</head>
+
+<body>
+    <div class="wrapper">
+        <header>
+            <div class="header-container">
+                <div class="logo">
+                    <a href="{% url 'homepage' %}">
+                        <picture>
+                            <img src="{% static 'img/logo-tourist-guide.svg' %}" alt="">
+                        </picture>
+                    </a>
+                </div>
+
+                <div class="search-bar">
+                    <form method="get" action="{% url 'locations' %}">
+                        <input type="text" name="search" placeholder="Searching for locations"
+                            value="{{ current_filters.search|default_if_none:'' }}">
+                        <button type="submit" class="search-button"><i class="fas fa-search"></i></button>
+                    </form>
+                </div>
+
+                {% if not user.is_authenticated %}
+                <div class="nav-buttons">
+                    <a href="{% url 'login' %}"><button class="nav-button secondary">Sign In</button></a>
+                    <a href="{% url 'register'%}"><button class="nav-button primary">Sign Up</button></a>
+                </div>
+                {% else %}
+                <!-- logo người dùng ở đây, kiểu như facebook mặc định, xong có thêm cái username -->
+
+
+                <div class="user-block">
+                    <div class="dropbtn">
+                        {{user.username}}
+                        <i class="far fa-user-circle"></i>
+                    </div>
+
+                    {% if user.is_authenticated %}
+                    <form action="{% url 'logout' %}" method="post" style="display: inline;">
+                        {% csrf_token %}
+                        <a href="{% url 'logout' %}"><button type="submit" class="logout-button">Log Out</button></a>
+                    </form>
+                    {% endif %}
+                </div>
+                {% endif %}
+            </div>
+
+            <!--Nav chính-->
+            <ul class="nav-tabs">
+                <!-- <li><a href="{% url 'homepage' %}"
+                        class="{% if request.resolver_match.url_name == 'homepage' %}active{% endif %}"><i
+                            class="fa fa-home"></i>Home</a></li> -->
+                <li><a href="{% url 'weather' %}"
+                        class="{% if request.resolver_match.url_name == 'weather' %}active{% endif %}"><i
+                            class="fa-solid fa-sun"></i>Weather</a></li>
+                <li><a href="{% url 'locations' %}"
+                        class="{% if request.resolver_match.url_name == 'locations' %}active{% endif %}"><i
+                            class="fas fa-map-marker-alt"></i>Locations</a></li>
+                <li><a href="{% url 'favourite' %}"
+                        class="{% if request.resolver_match.url_name == 'favourite' %}active{% endif %}"><i
+                            class="fas fa-heart"></i>Favourite</a></li>
+                <li><a href="{% url 'my_trip' %}"
+                        class="{% if request.resolver_match.url_name == 'my_trip' %}active{% endif %}"><i
+                            class="fas fa-map-marked-alt"></i>My Trip</a></li>
+            </ul>
+        </header>
+
+        <main>
+            {% block body %}
+            {% endblock %}
+        </main>
+
+        <div class="chat-bot">
+            {% if user.is_authenticated %}
+            <script src="https://www.gstatic.com/dialogflow-console/fast/messenger/bootstrap.js?v=1"></script>
+            <df-messenger intent="WELCOME" chat-title="Tourist-Guide-Assistant"
+                agent-id="00f36564-09cc-4623-b8a3-4ea29b3960f8" language-code="en" user-id="{{user.id}}"></df-messenger>
+            {% endif %}
+        </div>
+
+        <footer>
+            <div class="footer-container">
+                <div class="footer-grid">
+                    <!-- About -->
+                    <div class="footer-column">
+                        <h3>About Tourist Guide</h3>
+                        <p>We provide amazing travel experiences across Vietnam and beyond.</p>
+                    </div>
+
+                    <!-- Contact Info -->
+                    <div class="footer-column">
+                        <h3>Contact Us</h3>
+                        <p>Email: 22520482@gm.uit.edu.vn</p>
+                        <p>Phone: 0793 512 912</p>
+                    </div>
+
+                    <!-- Social Media -->
+                    <div class="footer-column">
+                        <h3>Follow Us</h3>
+                        <div class="social-links">
+                            <a href="https://www.facebook.com/quangnhathoang.vo.3" title="Facebook"><i class="fab fa-facebook-f"></i></a>
+                            <a href="https://www.instagram.com/hoangvoquangnhat/" title="Instagram"><i class="fab fa-instagram"></i></a>
+                            <a href="https://github.com/howardVoxcan" title="GitHub"><i class="fab fa-github"></i></a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="footer-bottom">
+                    <p>&copy; 2025 Tourist Guide. All rights reserved.</p>
+                </div>
+            </div>
+        </footer>
+    </div>
+</body>
+
+</html>
