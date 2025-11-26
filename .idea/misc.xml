@@ -1,0 +1,8 @@
+<project version="4">
+  <component name="Black">
+    <option name="sdkName" value="Python 3.13 virtualenv at ~/Truong/Nam4/IE221/project/IE221_GoHCMC/GoHCMC/venv" />
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_25" default="true" project-jdk-name="Python 3.13 virtualenv at ~/Truong/Nam4/IE221/project/IE221_GoHCMC/GoHCMC/venv" project-jdk-type="Python SDK">
+    <output url="file://$PROJECT_DIR$/out" />
+  </component>
+</project>

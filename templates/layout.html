@@ -1,0 +1,45 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}GoHCMC{% endblock %}</title>
+  <link rel="stylesheet" href="{% static 'css/base.css' %}">
+  <link rel="stylesheet" href="{% static 'css/main.css' %}">
+  {% block css %}
+  {% endblock %}
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+  {% include 'components/header.html' %}
+  <main class="main-content">
+    {% block content %}{% endblock %}
+  </main>
+  <button id="back-to-top" class="back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+  </button>
+  {% include 'components/footer.html' %}
+  {% if user.is_authenticated %}
+  <script src="https://www.gstatic.com/dialogflow-console/fast/messenger/bootstrap.js?v=1"></script>
+  <df-messenger intent="WELCOME" chat-title="Tourist-Guide-Assistant"
+      agent-id="00f36564-09cc-4623-b8a3-4ea29b3960f8" language-code="en" user-id="{{user.id}}"></df-messenger>
+  {% endif %}
+  <script>
+    // Back to Top Button Logic
+    const backToTopButton = document.getElementById("back-to-top");
+    window.addEventListener("scroll", () => {
+      if (window.scrollY > 300) {
+        backToTopButton.style.display = "block";
+      } else {
+        backToTopButton.style.display = "none";
+      }
+    });
+
+    backToTopButton.addEventListener("click", (e) => {
+      e.preventDefault(); // Prevent default behavior
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+  </script>
+</body>
+</html>
