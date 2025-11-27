@@ -273,18 +273,8 @@ def locations(request):
         # --- Xử lý dữ liệu cho template ---
         processed_locations = []
         for loc in all_of_locations:
-            rating = (round(loc.rating * 2)) / 2
-            full_stars = int(rating)
-            has_half = (rating - full_stars) >= 0.5
-            star_html = '<i class="fas fa-star"></i>' * full_stars
-
-            if has_half:
-                star_html += '<i class="fas fa-star-half-alt"></i>'
-                empty_stars = 5 - full_stars - 1
-            else:
-                empty_stars = 5 - full_stars
-
-            star_html += '<i class="far fa-star"></i>' * empty_stars
+            # === GỌI HÀM GENERATE STAR TẠI ĐÂY ===
+            star_html = generate_star_html(loc.rating)
 
             favourite_symbol = (
                 '<i class="fa-solid fa-heart"></i>'
@@ -343,7 +333,8 @@ def location_detail(request, location_code):
         bot_reply = "Thanks for your comment!"  # Default fallback reply
 
         if not rating:
-            sentiment = predict_sentiment(content)
+            # Giả sử hàm predict_sentiment đã được import
+            sentiment = predict_sentiment(content) 
             if sentiment == "positive":
                 bot_reply = "We're thrilled you had a great time! Hope to see you again!"
                 rating = 4
@@ -386,19 +377,10 @@ def location_detail(request, location_code):
         comments = Comment.objects.filter(location=location, parent=None).prefetch_related(
             'replies').order_by('-created_at')
 
-        # Tính sao hiển thị
-        rating = round(location.rating * 2) / 2 if location.rating else 0
-        full_stars = int(rating)
-        has_half = (rating - full_stars) >= 0.5
-        star_html = '<i class="fas fa-star"></i>' * full_stars
-        if has_half:
-            star_html += '<i class="fas fa-star-half-alt"></i>'
-            empty_stars = 5 - full_stars - 1
-        else:
-            empty_stars = 5 - full_stars
-        star_html += '<i class="far fa-star"></i>' * empty_stars
+        # === GỌI HÀM GENERATE STAR TẠI ĐÂY ===
+        star_html = generate_star_html(location.rating)
 
-        # Biểu tượng yêu thích (dựa trên nhiều trường hợp, ví dụ bạn lưu favourite ở Location.favourited_by M2M)
+        # Biểu tượng yêu thích
         if request.user.is_authenticated and location.favourited_by.filter(id=request.user.id).exists():
             favourite_symbol = '<i class="fa-solid fa-heart"></i>'
         else:
