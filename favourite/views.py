@@ -198,7 +198,7 @@ def create_trip(request):
     # --- Solve path ---
     try:
         path, cost = graph.find_hamiltonian_path(
-            fixed_position=fixed_position_flags,
+            fixed_position=pinned_positions,
             precedence_constraints=precedence_constraints,
             start=start_index,
             end=end_index
