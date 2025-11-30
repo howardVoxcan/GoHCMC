@@ -19,3 +19,4 @@ idna==3.11
 django-widget-tweaks
 sympy>=1.7.1
 whitenoise
+matplotlib==3.10.7
