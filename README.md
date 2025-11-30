@@ -99,18 +99,11 @@ In parallel, we developed a sentiment analysis module to generate experience sum
 - Route optimized via a simplified **Hamiltonian Path algorithm**
 - Trip paths are saved to user history
 
-<p align="center">
-  <img src="https://github.com/user-attachments/assets/9353b708-e83d-4fea-ba75-e98ba6514413" alt="image">
-</p>
 
 #### 💬 Sentiment-Aware Review Generator
 
 - Auto-generates experience summaries for places with no reviews  
 - Replaced by real reviews when available
-
-<p align="center">
-  <img src="https://github.com/user-attachments/assets/f6d478e8-4506-4923-99b7-3614813dcb70" alt="image">
-</p>
 
 
 #### 🤖 Dialogflow Chatbot Assistant
@@ -121,9 +114,6 @@ In parallel, we developed a sentiment analysis module to generate experience sum
   - Creating entire trips via chat
 - Intents and entities managed via Python scripts and importable JSON
   
-<p align="center">
-  <img src="https://github.com/user-attachments/assets/28d4e4aa-2fcd-4303-99a8-14fa714fb37d" alt="image">
-</p>
 
 
 
